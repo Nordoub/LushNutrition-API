@@ -8,8 +8,9 @@ const mealService = require("./meal.service");
 // routes
 router.get("/", getAll);
 router.get("/:id", getById);
+router.post("/", create);
 // router.put('/:id', authorize(), updateSchema, update);
-router.delete("/:id", _delete);
+router.delete("/:title", _delete);
 
 module.exports = router;
 
@@ -27,9 +28,16 @@ function getById(req, res, next) {
     .catch(next);
 }
 
+function create(req, res, next) {
+  mealService
+    .create(req.body)
+    .then(() => res.json({ message: "Successfully created meal." }))
+    .catch(next);
+}
+
 function _delete(req, res, next) {
   mealService
-    .delete(req.params.id)
+    .delete(req.params.title)
     .then(() => res.json({ message: "Meal deleted successfully" }))
     .catch(next);
 }
